@@ -3,7 +3,7 @@ ARG IMAGE=alpine:latest
 # first image to download qemu and make it executable
 FROM alpine AS qemu
 ARG QEMU=x86_64
-ADD https://github.com/multiarch/qemu-user-static/releases/download/v2.11.0/qemu-${QEMU}-static /usr/bin/qemu-${QEMU}-static
+ADD https://github.com/multiarch/qemu-user-static/releases/download/v3.1.0-2/qemu-${QEMU}-static /usr/bin/qemu-${QEMU}-static
 RUN chmod +x /usr/bin/qemu-${QEMU}-static
 
 # second image to deliver the picapport container
@@ -20,7 +20,7 @@ ARG VERSION
 ENV PICAPPORT_PORT=80
 RUN apk add --update --no-cache tini openjdk8 curl && \
     mkdir -p /opt/picapport && \
-    curl -SsL -o /opt/picapport/picapport-headless.jar http://www.picapport.de/dockerbuild/${VERSION}/picapport-headless.jar && \
+    curl -SsL -o /opt/picapport/picapport-headless.jar https://www.picapport.de/prepare_download.php?dlfile=7-4-00%2fpicapport-headless.jar && \
     mkdir /opt/picapport/.picapport && \
     printf "%s\n%s\n%s\n" "server.port=$PICAPPORT_PORT" "irobot.root.0.path=/srv/photos" "foto.jpg.usecache=2" > /opt/picapport/.picapport/picapport.properties
 
